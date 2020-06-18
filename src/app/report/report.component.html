@@ -1,0 +1,7 @@
+<button (click)="findTop()">Top airline</button>
+<div class="col-lg-12 " *ngFor="let airline of airlines; index as i">
+  <div class="d-inline-flex">
+    <p>{{airline.airline}}</p>
+    <p>{{airline.countOfTicket}}</p>
+  </div>
+</div>
