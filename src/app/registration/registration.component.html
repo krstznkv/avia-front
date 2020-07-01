@@ -13,8 +13,15 @@
           <input type="password" class="form-control" [(ngModel)]="user.password" id="password" placeholder="Enter password"
                  name="password">
         </div>
-        <button (click)=registration() class="btn btn-success">Login</button>
+        <div class="form-group">
+          <label>Repeat Password:</label>
+          <input type="password" class="form-control" [(ngModel)]="password" id="password2" placeholder="Enter password"
+                 name="password">
+        </div>
+        <button (click)=registration() class="btn btn-success">OK</button>
+        <a class="float-right" href="/">Login</a>
       </form>
+      <p>{{error}}</p>
     </div>
   </div>
 </div>

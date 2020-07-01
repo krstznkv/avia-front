@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from './model/user';
 import {ApiService} from '../api.service';
 
@@ -9,13 +9,23 @@ import {ApiService} from '../api.service';
 })
 export class RegistrationComponent implements OnInit {
   user = {} as User;
-  constructor(private service: ApiService) { }
+  password;
+  error;
+
+  constructor(private service: ApiService) {
+  }
 
   ngOnInit(): void {
   }
 
   registration() {
-    // tslint:disable-next-line:max-line-length
-    this.service.registration(this.user).subscribe( (data: User) => console.log(data.username), error => console.log('user wasn\'t register'));
+    if ( this.user.password !== this.password){
+      this.error = 'Password mismatch';
+    }
+    else{
+    this.service.registration(this.user).subscribe(
+      (data: User) => console.log(data.username),
+        error => console.log('user wasn\'t register'));
+    }
   }
 }

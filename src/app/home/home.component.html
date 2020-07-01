@@ -1,7 +1,6 @@
 <app-logout></app-logout>
 <div class="container col-lg-6">
-
-  <h1 class="text-center">Find ticket!</h1>
+ <h1 class="text-center">Find ticket!</h1>
   <div class="col-12">
     <div >
       <form class="form-group">
@@ -36,7 +35,9 @@
                  name="password">
         </div>
         <button (click)=fingTicket() class="btn btn-success">Ok</button>
+
       </form>
+      <p>{{error}}</p>
     </div>
   </div>
 </div>

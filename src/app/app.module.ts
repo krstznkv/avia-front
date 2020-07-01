@@ -1,18 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import {AppComponent} from './app.component';
+import {LoginComponent} from './login/login.component';
 import {RouterModule, Routes} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import { RegistrationComponent } from './registration/registration.component';
-import { HomeComponent } from './home/home.component';
-import { LogoutComponent } from './logout/logout.component';
-import { ReportComponent } from './report/report.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {RegistrationComponent} from './registration/registration.component';
+import {HomeComponent} from './home/home.component';
+import {LogoutComponent} from './logout/logout.component';
+import {ReportComponent} from './report/report.component';
+import {ApiService} from './api.service';
+import {HttpInterceptorService} from './http-interceptor-service';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
+  {path: '', component: LoginComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: 'home', component: HomeComponent},
   {path: 'logout', component: LoginComponent},
@@ -32,9 +34,10 @@ const routes: Routes = [
     BrowserModule,
     [RouterModule.forRoot(routes)],
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [ApiService, {provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

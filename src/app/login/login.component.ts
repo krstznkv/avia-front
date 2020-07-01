@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../api.service';
 import {Router} from '@angular/router';
 
@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
+  error;
 
   constructor(private service: ApiService, private  router: Router) {
   }
@@ -19,9 +20,16 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.service.login(this.username, this.password).subscribe(data => {
-      console.log(data);
-      this.router.navigate(['/home']);
-    },
-        error => console.log('something goes wrong'));
+        console.log(data);
+        this.router.navigate(['/home']);
+      },
+      error => {
+        if (error.status === 401) {
+          this.error = 'Wrong login or password';
+        } else {
+          this.error = error.message;
+        }
+        console.log(error);
+      });
   }
 }

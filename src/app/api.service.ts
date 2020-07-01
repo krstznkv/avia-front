@@ -13,7 +13,7 @@ export class ApiService {
   username: string;
   password: string;
   USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser';
-
+  USER_PASSWORD_SESSION_ATTRIBUTE_PASSWORD = 'authenticatedUserPassword';
   constructor(private client: HttpClient) {
   }
 
@@ -23,6 +23,7 @@ export class ApiService {
       this.username = username;
       this.password = password;
       sessionStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username);
+      sessionStorage.setItem(this.USER_PASSWORD_SESSION_ATTRIBUTE_PASSWORD, password);
     }));
   }
 
@@ -51,6 +52,6 @@ export class ApiService {
     return this.client.post('http://localhost:8080/saveTicket', ticket);
   }
   findTop(){
-    return this.client.post<Array<AirlineTop>>('http://localhost:8080/report', '');
+    return this.client.post<Array<AirlineTop>>('http://localhost:8080/test', '');
   }
 }

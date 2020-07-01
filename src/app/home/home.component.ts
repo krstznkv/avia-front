@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {TicketService} from '../ticket.service';
+import {Component, OnInit} from '@angular/core';
 import {RequestT} from '../model/requestT';
 import {ApiService} from '../api.service';
 import {Ticket} from '../model/ticket';
-import {Subscription} from 'rxjs';
+
 
 
 @Component({
@@ -12,30 +11,33 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  activeTab = 'home';
+  error;
   request = {} as RequestT;
-  tickets = {} as Set<Ticket> ;
+  tickets = {} as Set<Ticket>;
   ticket = {} as Ticket;
-  constructor(private service: ApiService) { }
+
+  constructor(private service: ApiService) {
+  }
 
   ngOnInit(): void {
   }
 
-  changeTab(activeTav) {
-    this.activeTab = activeTav;
-  }
 
   fingTicket() {
-   this.service.findTicket(this.request).subscribe( (data) => {console.log(data);
-                                                               this.tickets = data;
-   }, error => console.log('not found'));
+    this.service.findTicket(this.request).subscribe((data) => {
+      console.log(data);
+      this.tickets = data;
+    }, error => {
+      this.error = error.message;
+      console.log(error);
+    });
   }
 
 
   saveTicket(ticket) {
-   this.ticket = ticket;
-   this.service.saveTicket(this.ticket).subscribe( (data) => console.log(data)
+    this.ticket = ticket;
+    this.service.saveTicket(this.ticket).subscribe((data) => console.log(data)
 
-    , error => console.log('do not save'));
+      , error => console.log('do not save'));
   }
 }
