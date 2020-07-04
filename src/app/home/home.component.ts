@@ -15,21 +15,27 @@ export class HomeComponent implements OnInit {
   request = {} as RequestT;
   tickets = {} as Set<Ticket>;
   ticket = {} as Ticket;
-
+  role = sessionStorage.getItem('authenticatedUserRole');
+  isReady = true;
   constructor(private service: ApiService) {
   }
 
   ngOnInit(): void {
+ }
+  isAdmin(){
+    return this.role === 'ADMIN';
   }
 
-
-  fingTicket() {
+  findTicket() {
+    this.isReady = false;
+    console.log(this.request.date);
     this.service.findTicket(this.request).subscribe((data) => {
-      console.log(data);
       this.tickets = data;
+      this.isReady = true;
     }, error => {
       this.error = error.message;
       console.log(error);
+      this.isReady = true;
     });
   }
 

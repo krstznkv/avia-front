@@ -1,55 +1,63 @@
-<app-logout></app-logout>
-<div class="container col-lg-6">
- <h1 class="text-center">Find ticket!</h1>
-  <div class="col-12">
-    <div >
-      <form class="form-group">
-        <div class="form-group">
-          <label>From:</label>
-          <input type="text" class="form-control" id="from" [(ngModel)]="request.from" placeholder="Enter dearture city"
-                 name="username">
+<div class="container">
+  <app-logout></app-logout>
+  <a *ngIf="isAdmin()" class="btn btn-primary" href="/report">Report</a>
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center">Find ticket!</h1>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-lg-10 col-12 offset-lg-1">
+      <form>
+        <div class="row">
+          <div class="col">
+            <label>From:</label>
+            <input type="text" class="form-control" id="from" [(ngModel)]="request.from"
+                   placeholder="Enter departure city"
+                   name="username">
+          </div>
+          <div class="col">
+            <label>To:</label>
+            <input type="text" class="form-control" [(ngModel)]="request.to" id="to"
+                   placeholder="Enter city of arrival"
+                   name="password">
+          </div>
+          <div class="col">
+            <label>Date:</label>
+            <input type="date" class="form-control" [(ngModel)]="request.date" id="date"
+                   placeholder="Enter date"
+                   name="password">
+          </div>
+          <div class="col">
+            <label>Adult:</label>
+            <input type="text" class="form-control" [(ngModel)]="request.adult" id="adult"
+                   placeholder="Enter count of adult"
+                   name="password">
+          </div>
+          <button (click)=findTicket() class="btn btn-primary btn_ok">Ok</button>
         </div>
-        <div class="form-group">
-          <label>To:</label>
-          <input type="text" class="form-control" [(ngModel)]="request.to" id="to" placeholder="Enter city of arrival"
-                 name="password">
-        </div>
-        <div class="form-group">
-          <label>Date:</label>
-          <input type="text" class="form-control" [(ngModel)]="request.date" id="date" placeholder="Enter date"
-                 name="password">
-        </div>
-        <div class="form-group" >
-          <label>Adult:</label>
-          <input type="text" class="form-control" [(ngModel)]="request.adult" id="adult" placeholder="Enter count of adult"
-                 name="password">
-        </div>
-        <div class="form-group">
-          <label>children:</label>
-          <input type="text" class="form-control" [(ngModel)]="request.children" id="children" placeholder="Enter count of adult"
-                 name="password">
-        </div>
-        <div class="form-group">
-          <label>Return date:</label>
-          <input type="text" class="form-control" [(ngModel)]="request.ret_date" id="ret_date" placeholder="Enter count of adult"
-                 name="password">
-        </div>
-        <button (click)=fingTicket() class="btn btn-success">Ok</button>
 
       </form>
-      <p>{{error}}</p>
     </div>
   </div>
+
+  <p>{{error}}</p>
 </div>
-<div class="col-lg-12 " *ngFor="let ticket of tickets; index as i">
-  <div class="d-inline-flex">
-   <p>{{ticket.arrivalAir}}</p>
-    <p>{{ticket.arrivalDate}}</p>
-    <p>{{ticket.departureAir}}</p>
-    <p>{{ticket.departureDate}}</p>
-    <p>{{ticket.airline}}</p>
-    <p>{{ticket.price}}</p>
-    <a href="{{ticket.link}}" (click)=saveTicket(ticket)>Buy</a>
-  </div>
+<div id="preloader" class="preloader" [hidden]="isReady">
+  <div id="loader"></div>
 </div>
 
+<div class="col-lg-12 d-flex justify-content-center" *ngFor="let ticket of tickets; index as i">
+  <div class="ticket-box col-lg-8 d-inline-flex  align-items-center">
+    <div><p>{{ticket.airline}}</p></div>
+    <div><p>{{ticket.arrivalAir}}</p>
+      <p>{{ticket.arrivalDate}}</p></div>
+    <div id="line"></div>
+    <div><p>{{ticket.departureAir}}</p>
+      <p>{{ticket.departureDate}}</p></div>
+    <div><a href="{{ticket.link}}" (click)=saveTicket(ticket)>Buy for {{ticket.price}} </a></div>
+
+
+  </div>
+</div>

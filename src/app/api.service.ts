@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import {RequestT} from './model/requestT';
 import {Ticket} from './model/ticket';
 import {AirlineTop} from './model/airline-top';
+import {Message} from './model/message';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,9 @@ export class ApiService {
   password: string;
   USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser';
   USER_PASSWORD_SESSION_ATTRIBUTE_PASSWORD = 'authenticatedUserPassword';
+  USER_ROLE_SESSION_ATTRIBUTE_ROLE = 'authenticatedUserRole';
+
+
   constructor(private client: HttpClient) {
   }
 
@@ -24,9 +28,18 @@ export class ApiService {
       this.password = password;
       sessionStorage.setItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME, username);
       sessionStorage.setItem(this.USER_PASSWORD_SESSION_ATTRIBUTE_PASSWORD, password);
+      this.findUser().subscribe((data) => {
+        console.log(data);
+        sessionStorage.setItem(this.USER_ROLE_SESSION_ATTRIBUTE_ROLE, data.message);
+       }, error => {
+
+        console.log(error);
+      });
     }));
   }
-
+  findUser(){
+    return this.client.post<Message>('http://localhost:8080/findUser', this.username);
+  }
   createBasicAuthToken(username: string, password: string) {
     return 'Basic ' + window.btoa(username + ':' + password);
   }
@@ -42,6 +55,8 @@ export class ApiService {
 
   logout() {
     sessionStorage.removeItem(this.USER_NAME_SESSION_ATTRIBUTE_NAME);
+    sessionStorage.removeItem(this.USER_ROLE_SESSION_ATTRIBUTE_ROLE);
+    sessionStorage.clear();
     this.username = null;
     this.password = null;
   }

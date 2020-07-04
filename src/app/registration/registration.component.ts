@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from './model/user';
 import {ApiService} from '../api.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +13,7 @@ export class RegistrationComponent implements OnInit {
   password;
   error;
 
-  constructor(private service: ApiService) {
+  constructor(private service: ApiService, private  router: Router) {
   }
 
   ngOnInit(): void {
@@ -23,9 +24,16 @@ export class RegistrationComponent implements OnInit {
       this.error = 'Password mismatch';
     }
     else{
-    this.service.registration(this.user).subscribe(
-      (data: User) => console.log(data.username),
-        error => console.log('user wasn\'t register'));
+      if (this.password.length < 8) { this.error = 'Password must be at least 8 characters'; }
+      else {
+      this.service.registration(this.user).subscribe(
+      (data: User) => {console.log(data.username);
+                       this.router.navigate(['/']);
+      },
+        error => { console.log('user wasn\'t register');
+                   this.error = 'User with this login exist';
+      });
+     }
     }
   }
 }
